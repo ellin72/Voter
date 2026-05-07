@@ -1,0 +1,331 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8fafb;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Reset Button */
+.reset-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.reset-btn:hover {
+    background-color: #c82333;
+}
+
+.reset-btn:active {
+    transform: scale(0.98);
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.1);
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    opacity: 0.95;
+    font-weight: 300;
+}
+
+/* Voting Section */
+.voting-section {
+    margin-bottom: 60px;
+}
+
+.voting-section h2 {
+    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 30px;
+    color: #0066cc;
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Nurse Card */
+.nurse-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.nurse-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 102, 204, 0.15);
+}
+
+.nurse-icon {
+    font-size: 3.5em;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.nurse-card h3 {
+    font-size: 1.2em;
+    color: #0066cc;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.vote-count {
+    font-size: 1.3em;
+    color: #333;
+    margin: 15px 0;
+    font-weight: 600;
+}
+
+/* Vote Button */
+.vote-btn {
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.vote-btn:hover:not(:disabled) {
+    background-color: #0052a3;
+    transform: scale(1.02);
+}
+
+.vote-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.vote-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Results Section */
+.results-section {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.results-section h2 {
+    font-size: 1.8em;
+    color: #0066cc;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f8fafb;
+    border-radius: 8px;
+    border-left: 4px solid #0066cc;
+    transition: background-color 0.3s ease;
+}
+
+.result-item.leading {
+    background-color: #e8f5e9;
+    border: 2px solid #4caf50;
+    border-left: 4px solid #4caf50;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+.result-rank {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #0066cc;
+    min-width: 40px;
+    text-align: center;
+}
+
+.result-info {
+    flex-grow: 1;
+    margin: 0 20px;
+}
+
+.result-name {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333;
+}
+
+.result-votes {
+    font-size: 1em;
+    color: #666;
+    margin-top: 3px;
+}
+
+.result-badge {
+    background-color: #4caf50;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Thank You Message */
+.thank-you-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4caf50;
+    color: white;
+    padding: 30px 50px;
+    border-radius: 12px;
+    font-size: 1.3em;
+    font-weight: 600;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: slideDown 0.5s ease, slideUp 0.5s ease 2.5s;
+}
+
+.thank-you-message.hidden {
+    display: none;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+    to {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 1.8em;
+    }
+
+    .subtitle {
+        font-size: 1em;
+    }
+
+    .cards-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .results-section {
+        padding: 25px;
+    }
+
+    .result-item {
+        flex-wrap: wrap;
+    }
+
+    .result-info {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .reset-btn {
+        position: static;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.5em;
+    }
+
+    .voting-section h2,
+    .results-section h2 {
+        font-size: 1.4em;
+    }
+
+    .nurse-card {
+        padding: 20px;
+    }
+
+    .nurse-icon {
+        font-size: 2.5em;
+    }
+
+    .vote-count {
+        font-size: 1.1em;
+    }
+}
