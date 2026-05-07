@@ -1,6 +1,6 @@
 import React from "react";
 import { useVoting } from "../context/VotingContext";
-import { Trophy, TrendingUp } from "lucide-react";
+import { Trophy } from "lucide-react";
 
 const ResultsPage = () => {
   const { nurses, getTotalVotes, getPercentage, loading } = useVoting();
