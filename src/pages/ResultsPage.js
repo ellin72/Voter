@@ -4,7 +4,8 @@ import { useAuth } from "../context/AuthContext";
 import { Trophy } from "lucide-react";
 
 const ResultsPage = () => {
-  const { nurses, getTotalVotes, getPercentage, loading, votingClosed } = useVoting();
+  const { nurses, getTotalVotes, getPercentage, loading, votingClosed } =
+    useVoting();
   const { currentUser } = useAuth();
 
   const canSeeResults = currentUser || votingClosed;
