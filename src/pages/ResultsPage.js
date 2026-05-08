@@ -4,8 +4,10 @@ import { useAuth } from "../context/AuthContext";
 import { Trophy } from "lucide-react";
 
 const ResultsPage = () => {
-  const { nurses, getTotalVotes, getPercentage, loading } = useVoting();
+  const { nurses, getTotalVotes, getPercentage, loading, votingClosed } = useVoting();
   const { currentUser } = useAuth();
+
+  const canSeeResults = currentUser || votingClosed;
 
   if (loading) {
     return (
@@ -32,7 +34,7 @@ const ResultsPage = () => {
 
       {/* Stats Cards */}
       <div className="max-w-4xl mx-auto mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-        {currentUser && (
+        {canSeeResults && (
           <div className="bg-white rounded-lg shadow p-6 text-center">
             <p className="text-gray-600 text-sm">Total Votes</p>
             <p className="text-3xl font-bold text-blue-600">{totalVotes}</p>
@@ -82,8 +84,8 @@ const ResultsPage = () => {
                   </p>
                 </div>
 
-                {/* Vote Info — admin only */}
-                {currentUser && (
+                {/* Vote Info — visible to all after voting closes */}
+                {canSeeResults && (
                   <div className="text-right">
                     <p className="text-2xl font-bold text-blue-600">
                       {nurse.votes || 0}
@@ -100,8 +102,8 @@ const ResultsPage = () => {
                 )}
               </div>
 
-              {/* Progress Bar — admin only */}
-              {currentUser && (
+              {/* Progress Bar — visible to all after voting closes */}
+              {canSeeResults && (
                 <div className="mt-4">
                   <div className="flex justify-between mb-1">
                     <span className="text-xs font-medium text-gray-600">
@@ -130,7 +132,7 @@ const ResultsPage = () => {
 
       {/* Footer */}
       <div className="max-w-4xl mx-auto mt-12 text-center text-gray-600 text-sm">
-        <p>Results update in real-time as votes are cast.</p>
+        <p>Final results as of 08/05/2026 at 11:20.</p>
       </div>
     </div>
   );
