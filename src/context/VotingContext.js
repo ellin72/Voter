@@ -12,6 +12,9 @@ import {
   where,
 } from "firebase/firestore";
 
+// Voting closes on 8 May 2026 at 11:20:00
+const VOTING_DEADLINE = new Date(2026, 4, 8, 11, 20, 0);
+
 const VotingContext = createContext();
 
 export const useVoting = () => {
@@ -28,6 +31,38 @@ export const VotingProvider = ({ children }) => {
   const [userVoted, setUserVoted] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [countdown, setCountdown] = useState("");
+  const [votingClosed, setVotingClosed] = useState(
+    () => new Date() >= VOTING_DEADLINE
+  );
+
+  // Countdown timer
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date();
+      const diff = VOTING_DEADLINE - now;
+      if (diff <= 0) {
+        setVotingClosed(true);
+        setCountdown("Voting has closed");
+        return;
+      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      const parts = [];
+      if (days > 0) parts.push(`${days}d`);
+      parts.push(
+        `${String(hours).padStart(2, "0")}h`,
+        `${String(minutes).padStart(2, "0")}m`,
+        `${String(seconds).padStart(2, "0")}s`
+      );
+      setCountdown(parts.join(" "));
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
 
   // Load initial data
   useEffect(() => {
@@ -65,6 +100,10 @@ export const VotingProvider = ({ children }) => {
 
   // Add vote
   const addVote = async (nurseId) => {
+    if (new Date() >= VOTING_DEADLINE) {
+      alert("Voting has closed. No more votes are accepted.");
+      return false;
+    }
     if (userVoted) {
       alert("You have already voted!");
       return false;
@@ -193,6 +232,8 @@ export const VotingProvider = ({ children }) => {
     toggleDarkMode,
     getTotalVotes,
     getPercentage,
+    countdown,
+    votingClosed,
   };
 
   return (

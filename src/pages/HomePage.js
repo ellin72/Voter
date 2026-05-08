@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useVoting } from "../context/VotingContext";
 import { useAuth } from "../context/AuthContext";
-import { Heart, Search, CheckCircle } from "lucide-react";
+import { Heart, Search, CheckCircle, Clock } from "lucide-react";
 
 const HomePage = () => {
   const {
@@ -12,6 +12,8 @@ const HomePage = () => {
     setSearchTerm,
     loading,
     nurses,
+    countdown,
+    votingClosed,
   } = useVoting();
   const { currentUser } = useAuth();
   const [votedNurse, setVotedNurse] = useState(null);
@@ -61,6 +63,24 @@ const HomePage = () => {
             className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
+      </div>
+
+      {/* Countdown Banner */}
+      <div className="max-w-6xl mx-auto mb-6">
+        {votingClosed ? (
+          <div className="flex items-center justify-center gap-3 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg font-semibold">
+            <Clock size={20} />
+            Voting is now closed. Thank you for participating!
+          </div>
+        ) : (
+          <div className="flex items-center justify-center gap-3 bg-blue-50 border border-blue-300 text-blue-700 px-4 py-3 rounded-lg">
+            <Clock size={20} />
+            <span>
+              Voting closes on <strong>08/05/2026 at 11:20</strong> &mdash; Time remaining:{" "}
+              <strong>{countdown}</strong>
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Status Message */}
@@ -126,15 +146,19 @@ const HomePage = () => {
                   {/* Vote Button */}
                   <button
                     onClick={() => handleVote(nurse.id, nurse.name)}
-                    disabled={userVoted}
+                    disabled={userVoted || votingClosed}
                     className={`w-full py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition ${
-                      userVoted
+                      userVoted || votingClosed
                         ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                         : "bg-blue-600 text-white hover:bg-blue-700 active:scale-95"
                     }`}
                   >
                     <Heart size={20} />
-                    {userVoted ? "Already Voted" : "Vote Now"}
+                    {votingClosed
+                      ? "Voting Closed"
+                      : userVoted
+                      ? "Already Voted"
+                      : "Vote Now"}
                   </button>
                 </div>
               </div>
