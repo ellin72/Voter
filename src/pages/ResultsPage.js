@@ -1,9 +1,11 @@
 import React from "react";
 import { useVoting } from "../context/VotingContext";
+import { useAuth } from "../context/AuthContext";
 import { Trophy } from "lucide-react";
 
 const ResultsPage = () => {
   const { nurses, getTotalVotes, getPercentage, loading } = useVoting();
+  const { currentUser } = useAuth();
 
   if (loading) {
     return (
@@ -30,10 +32,12 @@ const ResultsPage = () => {
 
       {/* Stats Cards */}
       <div className="max-w-4xl mx-auto mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white rounded-lg shadow p-6 text-center">
-          <p className="text-gray-600 text-sm">Total Votes</p>
-          <p className="text-3xl font-bold text-blue-600">{totalVotes}</p>
-        </div>
+        {currentUser && (
+          <div className="bg-white rounded-lg shadow p-6 text-center">
+            <p className="text-gray-600 text-sm">Total Votes</p>
+            <p className="text-3xl font-bold text-blue-600">{totalVotes}</p>
+          </div>
+        )}
         <div className="bg-white rounded-lg shadow p-6 text-center">
           <p className="text-gray-600 text-sm">Total Nurses</p>
           <p className="text-3xl font-bold text-indigo-600">{nurses.length}</p>
@@ -78,13 +82,15 @@ const ResultsPage = () => {
                   </p>
                 </div>
 
-                {/* Vote Info */}
-                <div className="text-right">
-                  <p className="text-2xl font-bold text-blue-600">
-                    {nurse.votes || 0}
-                  </p>
-                  <p className="text-sm text-gray-500">votes</p>
-                </div>
+                {/* Vote Info — admin only */}
+                {currentUser && (
+                  <div className="text-right">
+                    <p className="text-2xl font-bold text-blue-600">
+                      {nurse.votes || 0}
+                    </p>
+                    <p className="text-sm text-gray-500">votes</p>
+                  </div>
+                )}
 
                 {/* Badge */}
                 {index === 0 && (
@@ -94,27 +100,29 @@ const ResultsPage = () => {
                 )}
               </div>
 
-              {/* Progress Bar */}
-              <div className="mt-4">
-                <div className="flex justify-between mb-1">
-                  <span className="text-xs font-medium text-gray-600">
-                    Percentage
-                  </span>
-                  <span className="text-xs font-bold text-gray-800">
-                    {getPercentage(nurse.votes || 0)}%
-                  </span>
+              {/* Progress Bar — admin only */}
+              {currentUser && (
+                <div className="mt-4">
+                  <div className="flex justify-between mb-1">
+                    <span className="text-xs font-medium text-gray-600">
+                      Percentage
+                    </span>
+                    <span className="text-xs font-bold text-gray-800">
+                      {getPercentage(nurse.votes || 0)}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                    <div
+                      className={`h-full transition-all duration-500 ${
+                        index === 0
+                          ? "bg-gradient-to-r from-yellow-400 to-orange-400"
+                          : "bg-gradient-to-r from-blue-400 to-indigo-600"
+                      }`}
+                      style={{ width: `${getPercentage(nurse.votes || 0)}%` }}
+                    ></div>
+                  </div>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                  <div
-                    className={`h-full transition-all duration-500 ${
-                      index === 0
-                        ? "bg-gradient-to-r from-yellow-400 to-orange-400"
-                        : "bg-gradient-to-r from-blue-400 to-indigo-600"
-                    }`}
-                    style={{ width: `${getPercentage(nurse.votes || 0)}%` }}
-                  ></div>
-                </div>
-              </div>
+              )}
             </div>
           ))
         )}

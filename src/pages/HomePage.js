@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useVoting } from "../context/VotingContext";
+import { useAuth } from "../context/AuthContext";
 import { Heart, Search, CheckCircle } from "lucide-react";
 
 const HomePage = () => {
@@ -12,6 +13,7 @@ const HomePage = () => {
     loading,
     nurses,
   } = useVoting();
+  const { currentUser } = useAuth();
   const [votedNurse, setVotedNurse] = useState(null);
   const [showThankYou, setShowThankYou] = useState(false);
 
@@ -109,15 +111,17 @@ const HomePage = () => {
                     {nurse.department || "Healthcare Professional"}
                   </p>
 
-                  {/* Vote Count */}
-                  <div className="mb-4 flex items-center justify-between bg-gray-100 p-3 rounded-lg">
-                    <span className="text-gray-600 font-medium">
-                      Current Votes:
-                    </span>
-                    <span className="text-2xl font-bold text-blue-600">
-                      {nurse.votes || 0}
-                    </span>
-                  </div>
+                  {/* Vote Count — admin only */}
+                  {currentUser && (
+                    <div className="mb-4 flex items-center justify-between bg-gray-100 p-3 rounded-lg">
+                      <span className="text-gray-600 font-medium">
+                        Current Votes:
+                      </span>
+                      <span className="text-2xl font-bold text-blue-600">
+                        {nurse.votes || 0}
+                      </span>
+                    </div>
+                  )}
 
                   {/* Vote Button */}
                   <button
