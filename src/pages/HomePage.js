@@ -76,8 +76,8 @@ const HomePage = () => {
           <div className="flex items-center justify-center gap-3 bg-blue-50 border border-blue-300 text-blue-700 px-4 py-3 rounded-lg">
             <Clock size={20} />
             <span>
-              Voting closes on <strong>08/05/2026 at 11:20</strong> &mdash; Time remaining:{" "}
-              <strong>{countdown}</strong>
+              Voting closes on <strong>08/05/2026 at 11:20</strong> &mdash; Time
+              remaining: <strong>{countdown}</strong>
             </span>
           </div>
         )}
@@ -157,8 +157,8 @@ const HomePage = () => {
                     {votingClosed
                       ? "Voting Closed"
                       : userVoted
-                      ? "Already Voted"
-                      : "Vote Now"}
+                        ? "Already Voted"
+                        : "Vote Now"}
                   </button>
                 </div>
               </div>

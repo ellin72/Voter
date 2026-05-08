@@ -33,7 +33,7 @@ export const VotingProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [countdown, setCountdown] = useState("");
   const [votingClosed, setVotingClosed] = useState(
-    () => new Date() >= VOTING_DEADLINE
+    () => new Date() >= VOTING_DEADLINE,
   );
 
   // Countdown timer
@@ -55,7 +55,7 @@ export const VotingProvider = ({ children }) => {
       parts.push(
         `${String(hours).padStart(2, "0")}h`,
         `${String(minutes).padStart(2, "0")}m`,
-        `${String(seconds).padStart(2, "0")}s`
+        `${String(seconds).padStart(2, "0")}s`,
       );
       setCountdown(parts.join(" "));
     };
